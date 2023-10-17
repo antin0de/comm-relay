@@ -28,11 +28,16 @@ func main() {
 	h := handlers.HandlerParams{Db: db}
 
 	r := gin.Default()
+	r.LoadHTMLGlob("templates/**/*")
 	cookieSecret := os.Getenv("COOKIE_SECRET")
 	store := cookie.NewStore([]byte(cookieSecret))
 	r.Use(sessions.Sessions("session", store))
 
-	r.GET("/ping", h.Ping())
+	authorized := r.Group("/", gin.BasicAuth(gin.Accounts{
+		"root": os.Getenv("PASSWORD"),
+	}))
+
+	authorized.GET("/ping", h.Ping())
 
 	listenAddress := os.Getenv("LISTEN_ADDRESS")
 	r.Run(listenAddress)

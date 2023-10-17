@@ -2,7 +2,7 @@
 
 <img src=https://i.imgur.com/4csVefQ.png width=300 />
 
-A server that handles notifying various users using their preferred notification channels.
+A server that handles notifying user using preferred notification channels.
 
 ## Developing
 

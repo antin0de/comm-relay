@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"antin0.de/comm-relay/handlers"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -20,10 +21,19 @@ func main() {
 
 	mysqlDsn := os.Getenv("MYSQL_DSN")
 	db, err := gorm.Open(mysql.Open(mysqlDsn), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Error connecting to database")
+	}
+
+	h := handlers.HandlerParams{Db: db}
 
 	r := gin.Default()
-	store := cookie.NewStore([]byte("mmJT&in!8Lz2mk"))
+	cookieSecret := os.Getenv("COOKIE_SECRET")
+	store := cookie.NewStore([]byte(cookieSecret))
 	r.Use(sessions.Sessions("session", store))
 
-	r.Run("localhost:8080")
+	r.GET("/ping", h.Ping())
+
+	listenAddress := os.Getenv("LISTEN_ADDRESS")
+	r.Run(listenAddress)
 }

@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"antin0.de/comm-relay/handlers"
+	"antin0.de/comm-relay/models"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Error connecting to database")
 	}
+	models.Migrate(db)
 
 	h := handlers.HandlerParams{Db: db}
 
@@ -38,6 +40,10 @@ func main() {
 	}))
 
 	authorized.GET("/ping", h.Ping())
+	authorized.POST("/createChannel", h.CreateChannel())
+	authorized.POST("/updateChannel", h.UpdateChannel())
+	authorized.POST("/deleteChannel", h.DeleteChannel())
+	authorized.POST("/listChannels", h.ListChannels())
 
 	listenAddress := os.Getenv("LISTEN_ADDRESS")
 	r.Run(listenAddress)

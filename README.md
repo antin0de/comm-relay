@@ -4,6 +4,23 @@
 
 A server that handles notifying user using preferred notification channels.
 
+## Running
+
+You can run using the published Docker image.
+
+```bash
+docker run --name comm-relay \
+    -e MYSQL_DSN='root:password@tcp(localhost:3306)/comm_relay?charset=utf8mb4&parseTime=True&loc=Local' \
+    -e COOKIE_SECRET='cookie' \
+    -e LISTEN_ADDRESS='0.0.0.0:11073' \
+    -e PASSWORD='password' \
+    -p 11073:11073 \
+    -d \
+    ghcr.io/antin0de/comm-relay:latest
+```
+
+Then visit `localhost:11073`. Make sure you replace `MYSQL_DSN`, `COOKIE_SECRET` and `PASSWORD` with your own values.
+
 ## Developing
 
 ### Running Local Server

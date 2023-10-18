@@ -44,9 +44,9 @@ func main() {
 	authorized.POST("/updateChannel", h.UpdateChannel())
 	authorized.POST("/deleteChannel", h.DeleteChannel())
 	authorized.POST("/listChannels", h.ListChannels())
-	authorized.POST("/createEmailConnector", h.CreateEmailConnector())
-	authorized.POST("/updateEmailConnector", h.UpdateEmailConnector())
-	authorized.POST("/deleteEmailConnector", h.DeleteEmailConnector())
+	authorized.POST("/createEmailTarget", h.CreateEmailTarget())
+	authorized.POST("/updateEmailTarget", h.UpdateEmailTarget())
+	authorized.POST("/deleteEmailTarget", h.DeleteEmailTarget())
 	authorized.POST("/sendMessage", h.SendMessage())
 
 	listenAddress := os.Getenv("LISTEN_ADDRESS")

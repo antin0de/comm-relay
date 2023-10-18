@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /createEmailConnector
-func (h *HandlerParams) CreateEmailConnector() gin.HandlerFunc {
+// POST /createEmailTarget
+func (h *HandlerParams) CreateEmailTarget() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"pong": true,
@@ -15,8 +15,8 @@ func (h *HandlerParams) CreateEmailConnector() gin.HandlerFunc {
 	}
 }
 
-// POST /updateEmailConnector
-func (h *HandlerParams) UpdateEmailConnector() gin.HandlerFunc {
+// POST /updateEmailTarget
+func (h *HandlerParams) UpdateEmailTarget() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"pong": true,
@@ -24,8 +24,8 @@ func (h *HandlerParams) UpdateEmailConnector() gin.HandlerFunc {
 	}
 }
 
-// POST /deleteEmailConnector
-func (h *HandlerParams) DeleteEmailConnector() gin.HandlerFunc {
+// POST /deleteEmailTarget
+func (h *HandlerParams) DeleteEmailTarget() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"pong": true,

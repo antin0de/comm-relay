@@ -94,11 +94,21 @@ func (h *HandlerParams) ListChannels() gin.HandlerFunc {
 
 		var response []gin.H
 		for _, channel := range channels {
+			var emailTargets []gin.H
+			emailTargetModels := []models.EmailTarget{}
+			h.Db.Where("channel_id = ?", channel.ID).Find(&emailTargetModels)
+			for _, emailTargetModel := range emailTargetModels {
+				emailTargets = append(emailTargets, gin.H{
+					"id":           emailTargetModel.ID,
+					"emailAddress": emailTargetModel.EmailAddress,
+				})
+			}
 			response = append(response, gin.H{
-				"id":        channel.ID,
-				"name":      channel.Name,
-				"createdAt": channel.CreatedAt,
-				"updatedAt": channel.UpdatedAt,
+				"id":           channel.ID,
+				"name":         channel.Name,
+				"emailTargets": emailTargets,
+				"createdAt":    channel.CreatedAt,
+				"updatedAt":    channel.UpdatedAt,
 			})
 		}
 		c.JSON(http.StatusOK, response)

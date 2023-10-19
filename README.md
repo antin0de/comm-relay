@@ -14,6 +14,11 @@ docker run --name comm-relay \
     -e COOKIE_SECRET='cookie' \
     -e LISTEN_ADDRESS='0.0.0.0:11073' \
     -e PASSWORD='password' \
+    -e SMTP_HOST='smtp.gmail.com' \
+    -e SMTP_PORT=587 \
+    -e SMTP_USER='hello@gmail.com' \
+    -e SMTP_PASSWORD='your-app-password' \
+    -e SMTP_FROM='hello@gmail.com' \
     -p 11073:11073 \
     -d \
     ghcr.io/antin0de/comm-relay:latest

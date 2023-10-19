@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"net/http"
+	"net/smtp"
+	"os"
 
 	"antin0.de/comm-relay/models"
 	"github.com/gin-gonic/gin"
@@ -61,6 +63,35 @@ func (h *HandlerParams) SendMessage() gin.HandlerFunc {
 		}
 
 		// TODO: actually process the messages
+		emailTargets := []models.EmailTarget{}
+		h.Db.Where("channel_id = ?", requestBody.ChannelID).Find(&emailTargets)
+		for _, target := range emailTargets {
+			smtpAuth := smtp.PlainAuth(
+				"",
+				os.Getenv("SMTP_USER"),
+				os.Getenv("SMTP_PASSWORD"),
+				os.Getenv("SMTP_HOST"),
+			)
+			to := []string{target.EmailAddress}
+			msg := []byte("To: " + target.EmailAddress + "\r\n" +
+				"Subject: " + requestBody.Title + "\r\n" +
+				"\r\n" +
+				requestBody.Content + "\r\n",
+			)
+			err := smtp.SendMail(
+				os.Getenv("SMTP_HOST")+":"+os.Getenv("SMTP_PORT"),
+				smtpAuth,
+				os.Getenv("SMTP_USER"),
+				to, msg,
+			)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"error": "Failed to send message",
+				})
+				println(err.Error())
+				return
+			}
+		}
 
 		c.JSON(http.StatusOK, gin.H{
 			"id": message.ID,

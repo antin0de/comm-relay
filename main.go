@@ -17,7 +17,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Failed to load .env file, ensure you have all environment variables set")
 	}
 
 	mysqlDsn := os.Getenv("MYSQL_DSN")

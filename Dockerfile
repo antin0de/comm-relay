@@ -2,11 +2,11 @@ FROM golang:1.21
 
 WORKDIR /app
 
-COPY . /app
-
 # Download Go modules
 COPY go.mod go.sum ./
 RUN go mod download
+
+COPY . /app
 
 RUN go build -o ./comm-relay
 
